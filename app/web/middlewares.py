@@ -1,7 +1,15 @@
 import json
 import typing
 
-from aiohttp.web_exceptions import HTTPUnprocessableEntity
+from aiohttp.web_exceptions import (
+    HTTPUnprocessableEntity,
+    HTTPBadRequest,
+    HTTPUnauthorized,
+    HTTPForbidden,
+    HTTPMethodNotAllowed,
+    HTTPConflict,
+    HTTPInternalServerError
+)
 from aiohttp.web_middlewares import middleware
 from aiohttp_apispec import validation_middleware
 
@@ -35,6 +43,48 @@ async def error_handling_middleware(request: "Request", handler):
         )
     # TODO: обработать все исключения-наследники HTTPException и отдельно Exception, как server error
     #  использовать текст из HTTP_ERROR_CODES
+    except HTTPBadRequest as e:
+        return error_json_response(
+            http_status=e.status_code,
+            status=HTTP_ERROR_CODES[e.status_code],
+            message=e.reason,
+            data=json.loads(e.text)
+        )
+    except HTTPUnauthorized as e:
+        return error_json_response(
+            http_status=e.status_code,
+            status=HTTP_ERROR_CODES[e.status_code],
+            message=e.reason,
+            data=json.loads(e.text)
+        )
+    except HTTPForbidden as e:
+        return error_json_response(
+            http_status=e.status_code,
+            status=HTTP_ERROR_CODES[e.status_code],
+            message=e.reason,
+            data=json.loads(e.text)
+        )
+    except HTTPMethodNotAllowed as e:
+        return error_json_response(
+            http_status=e.status_code,
+            status=HTTP_ERROR_CODES[e.status_code],
+            message=e.reason,
+            data=json.loads(e.text)
+        )
+    except HTTPConflict as e:
+        return error_json_response(
+            http_status=e.status_code,
+            status=HTTP_ERROR_CODES[e.status_code],
+            message=e.reason,
+            data=json.loads(e.text)
+        )
+    except (Exception, HTTPInternalServerError) as e:
+        return error_json_response(
+            http_status=e.status_code,
+            status=HTTP_ERROR_CODES[e.status_code],
+            message=e.reason,
+            data=json.loads(e.text)
+        )
 
 
 def setup_middlewares(app: "Application"):
