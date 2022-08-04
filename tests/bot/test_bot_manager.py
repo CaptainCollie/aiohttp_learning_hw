@@ -1,4 +1,9 @@
-from app.store.vk_api.dataclasses import Update, UpdateObject, Message, UpdateMessage
+from app.store.vk_api.dataclasses import (
+    Update,
+    UpdateObject,
+    Message,
+    UpdateMessage
+)
 
 
 class TestHandleUpdates:
