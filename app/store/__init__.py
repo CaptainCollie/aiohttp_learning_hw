@@ -16,7 +16,7 @@ class Store:
         self.quizzes = QuizAccessor(app)
         self.admins = AdminAccessor(app)
         self.vk_api = VkApiAccessor(app)
-        self.bot_manager = BotManager(app)
+        self.bots_manager = BotManager(app)
 
 def setup_store(app: "Application"):
     app.database = Database()

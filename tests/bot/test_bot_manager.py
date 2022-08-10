@@ -28,6 +28,6 @@ class TestHandleUpdates:
             ]
         )
         assert store.vk_api.send_message.call_count == 1
-        message: Message = store.vk_api.send_message.mock_calls[0].args[0]
+        message: Message = store.vk_api.send_message.mock_calls[0].kwargs["message"]
         assert message.user_id == 1
         assert message.text
