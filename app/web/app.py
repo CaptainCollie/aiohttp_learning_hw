@@ -5,6 +5,10 @@ from aiohttp.web import (
     View as AiohttpView,
     Request as AiohttpRequest,
 )
+from aiohttp_session import setup as setup_session
+from aiohttp_apispec import setup_aiohttp_apispec
+
+from aiohttp_session.cookie_storage import EncryptedCookieStorage
 
 from app.admin.models import Admin
 from app.store import setup_store, Store
@@ -49,6 +53,13 @@ app = Application()
 def setup_app(config_path: str) -> Application:
     setup_logging(app)
     setup_config(app, config_path)
+    setup_session(app, EncryptedCookieStorage(secret_key=app.config.session.key))
+    setup_aiohttp_apispec(
+        app,
+        title='hw',
+        url='/docs',
+        swagger_path='/redoc',
+    )
     setup_routes(app)
     setup_middlewares(app)
     setup_store(app)

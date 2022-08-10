@@ -8,3 +8,6 @@ class Admin:
     id: int
     email: str
     password: Optional[str] = None
+
+    def check_password(self, password: str) -> bool:
+        return self.password == sha256(password.encode()).hexdigest()
